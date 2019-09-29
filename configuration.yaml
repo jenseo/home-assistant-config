@@ -1,12 +1,15 @@
-# Configure a default setup of Home Assistant (frontend, api, etc)
-default_config:
+#Home assistant config
+homeassistant:
   name: Hem
   latitude: !secret hass_latitude
   longitude: !secret hass_longitude
   unit_system: metric
   time_zone: Europe/Stockholm
-
-  packages: !include_dir_merge_named configuration/packages
+  
+  packages: !include_dir_merge_named packages
+  
+  # Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
 
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 http:
