@@ -6,6 +6,8 @@ default_config:
   unit_system: metric
   time_zone: Europe/Stockholm
 
+  packages: !include_dir_merge_named configuration/packages
+
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 http:
   server_port: !secret server_port
