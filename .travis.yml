@@ -6,8 +6,8 @@ install:
   - "pip3 install homeassistant"
 script:
   - "mv travis_secrets.yaml secrets.yaml"
-  - "mkdir -p /ssl/ && touch /ssl/fullchain.pem"
-  - "mkdir -p /ssl/ && touch /ssl/privkey.pem"
+  - "sudo mkdir -p /ssl/ && touch /ssl/fullchain.pem"
+  - "sudo mkdir -p /ssl/ && touch /ssl/privkey.pem"
   - "hass --version"
   - "hass -c . --script check_config | tee check.output"
   - '! less check.output | grep -q "Failed config"'
