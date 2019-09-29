@@ -9,7 +9,9 @@ default_config:
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 http:
   server_port: !secret server_port
-#   base_url: example.duckdns.org:8123
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
+  base_url: !secret base_url
 
 # Text to speech
 tts:
@@ -18,3 +20,8 @@ tts:
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
+
+logger:
+  default: critical
+  logs:
+    homeassistant.components.http.ban: warning
