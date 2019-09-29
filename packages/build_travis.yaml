@@ -1,4 +1,4 @@
-build_ci:
+build_travis:
   automation:
     - alias: System Travis Build Status
       trigger:
