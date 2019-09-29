@@ -12,6 +12,10 @@ http:
   ssl_certificate: /ssl/fullchain.pem
   ssl_key: /ssl/privkey.pem
   base_url: !secret base_url
+  
+# Enablers
+discovery:
+ios:
 
 # Text to speech
 tts:
