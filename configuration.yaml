@@ -27,6 +27,7 @@ tts:
 
 group: !include groups.yaml
 
+#Log bans
 logger:
   default: critical
   logs:
