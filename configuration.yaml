@@ -5,19 +5,18 @@ homeassistant:
   longitude: !secret hass_longitude
   unit_system: metric
   time_zone: Europe/Stockholm
-  
+
   packages: !include_dir_merge_named packages
-  
+
 # Default setup of Home Assistant (frontend, api, etc)
 default_config:
 
-# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 http:
   server_port: !secret server_port
   ssl_certificate: /ssl/fullchain.pem
   ssl_key: /ssl/privkey.pem
   base_url: !secret base_url
-  
+
 # Enablers
 discovery:
 ios:
