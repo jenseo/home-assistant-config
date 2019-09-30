@@ -1,4 +1,3 @@
-#Home assistant config
 homeassistant:
   name: Hem
   latitude: !secret hass_latitude
