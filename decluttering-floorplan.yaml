@@ -3,33 +3,14 @@ ikea-light:
     type: image
     image: '[[image-url]]'
     entity: '[[entity]]'
-    style:
+    style: 
       mix-blend-mode: lighten
       opacity: '[[opacity]]'
       top: '[[top]]'
       left: '[[left]]'
       width: '[[width]]'
       height: auto
-      background-color: >
-        {% if state_attr('light.hallbyra', 'color_temp') <= 190 %}
-          '#000000'
-        {% elif state_attr('light.hallbyra', 'color_temp') <= 227 %}
-          '#000000'
-        {% elif state_attr('light.hallbyra', 'color_temp') <= 264 %}
-          '#000000'
-        {% elif state_attr('light.hallbyra', 'color_temp') <= 302 %}
-          '#000000'
-        {% elif state_attr('light.hallbyra', 'color_temp') <= 340 %}
-          '#000000'
-        {% elif state_attr('light.hallbyra', 'color_temp') <= 378 %}
-          '#000000'
-        {% elif state_attr('light.hallbyra', 'color_temp') <= 416 %}
-          '#000000'
-        {% elif state_attr('light.hallbyra', 'color_temp') <= 454 %}
-          '#000000'
-        {% else %}
-          'transparent'
-        {% endif %}
+      background-color: '[[background-color]]'
       -webkit-mask-image: url('[[image-url]]')
       -webkit-mask-size: 100% 100%
       transform: none
