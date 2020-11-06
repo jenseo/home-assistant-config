@@ -4,20 +4,45 @@ homeassistant:
   longitude: !secret hass_longitude
   unit_system: metric
   time_zone: Europe/Stockholm
-
-  packages: !include_dir_merge_named packages
-
+  customize: !include customize.yaml
+  
 default_config:
 
-http:
-  server_port: !secret server_port
-  ssl_certificate: /ssl/fullchain.pem
-  ssl_key: /ssl/privkey.pem
-  base_url: !secret base_url
+frontend:
+  themes: !include_dir_merge_named custom/themes/
+
+lovelace:
+  mode: storage
+  dashboards:
+    lovelace-floorplan:
+      mode: yaml
+      title: Floorplan
+      icon: 'mdi:floor-plan'
+      show_in_sidebar: true
+      filename: floorplan.yaml
+      require_admin: true
+
+http:  
+    server_port: !secret server_port
+
+automation: !include automations.yaml
 
 # Enablers
-discovery:
 ios:
+cloud:
+
+# Google Calendar
+google:
+  client_id: !secret google_client_id
+  client_secret: !secret google_client_secret
+  
+# Sector Alarm
+sector:
+  userid: !secret sector_alarm_email
+  password: !secret sector_alarm_pwd
+#  code: !secret sector_alarm_code
+  temp: true
+  lock: true    
 
 # Text to speech
 tts:
@@ -30,3 +55,47 @@ logger:
   default: critical
   logs:
     homeassistant.components.http.ban: warning
+ 
+recorder:
+  purge_keep_days: 1
+  purge_interval: 1
+  exclude:
+    domains:
+      - updater
+      - media_player
+      - sun
+      - zone
+      - group
+      - sensor
+      - binary_sensor
+      - automation
+      
+sensor:
+  - platform: template
+    sensors:
+
+      ## Calculates daylight brightness out of 100%
+      sunlight_pct:
+        value_template: >-
+          {%- set elevation = state_attr('sun.sun','elevation') | float %}
+          {%- set cloud_coverage = states('sensor.openweathermap_cloud_coverage') | float %}
+          {%- set cloud_factor = (1 - (0.75 * ( cloud_coverage / 100) ** 3 )) %}
+          {%- set min_elevation = -6 %}
+          {%- set max_elevation = 90 %}
+          {%- set adjusted_elevation = elevation - min_elevation %}
+          {%- set adjusted_elevation = [adjusted_elevation,0] | max %}
+          {%- set adjusted_elevation = [adjusted_elevation,max_elevation - min_elevation] | min %}
+          {%- set adjusted_elevation = adjusted_elevation / (max_elevation - min_elevation) %}
+          {%- set adjusted_elevation = adjusted_elevation %}
+          {%- set adjusted_elevation = adjusted_elevation * 100 %}
+          {%- set brightness = adjusted_elevation * cloud_factor %}
+          {{ brightness | round }}
+        unit_of_measurement: '%'
+        device_class: 'illuminance'
+      
+      ## Daylight brightness converted to opacity for CSS
+      sunlight_opacity:
+        value_template: >-
+          {%- set sunpct = states('sensor.sunlight_pct') | float %}
+          {%- set opacity = sunpct / 100 | float %}
+          {{ opacity }}

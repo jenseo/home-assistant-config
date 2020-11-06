@@ -1,0 +1,5 @@
+family:
+  name: Family
+  entities:
+    - device_tracker.jens_iphone
+    - device_tracker.martinas_iphone

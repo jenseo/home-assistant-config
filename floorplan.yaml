@@ -1,0 +1,151 @@
+title: Floorplan
+decluttering_templates: !include decluttering-floorplan.yaml
+views:
+  - title: Floorplan
+    path: floorplan
+    visible:
+      - user: 7fdffcaeaaf54b98b330878819fde53b
+    panel: true
+    icon: 'mdi:floor-plan'
+    badges: []
+    cards:
+      - type: 'custom:config-template-card'
+        entities:
+          - light.hallbyra
+        card:
+          type: picture-elements
+          image: /local/floorplan/nighttime.png
+          style: |
+              ha-card {
+                background: transparent;
+                width: 84%;
+                left:16%;
+              }
+          elements:
+            - type: conditional
+              conditions:
+                - entity: sun.sun
+                  state: above_horizon
+              elements:
+                - type: image
+                  entity: sun.sun
+                  image: /local/floorplan/daytime.png
+                  style:
+                    height: 100%
+                    width: 100%
+                    left: 50%
+                    top: 50%
+                    mix-blend-mode: lighten
+                    opacity: '${ states[''sensor.sunlight_opacity''].state }'
+                  action: none
+                  tap_action:
+                    action: none
+                  hold_action:
+                    action: none
+            - type: custom:decluttering-card
+              template: ikea-light
+              variables:
+                - entity: light.hallbyra
+                - image-url: /local/floorplan/lights/hallway-drawer-cropped.png
+                - opacity: "${states['light.hallbyra'].state === 'on' ? (states['light.hallbyra'].attributes.brightness / 255) : '0'}"
+                - top: 53.340635268%
+                - left: 3.09760374%
+                - width: 78.784336645%
+                
+            - entity: light.hallbyra
+              hold_action:
+                action: call-service
+                service: browser_mod.popup
+                service_data:
+                  card:
+                    cards:
+                      - entities:
+                          - entity: light.hallbyra
+                            secondary_info: last-changed
+                        style:
+                          z-index: 5
+                        type: entities
+                      - cards:
+                          - cards:
+                              - brightness: false
+                                color_picker: false
+                                effects_list: false
+                                entity: light.hallbyra
+                                full_width_sliders: true
+                                header: false
+                                persist_features: true
+                                show_slider_percent: false
+                                smooth_color_wheel: true
+                                type: 'custom:light-entity-card'
+                                style: |
+                                    ha-card {
+                                      box-shadow: none !important;
+                                    }
+                              - brightness: false
+                                color_temp: false
+                                entity: light.cabinet
+                                full_width_sliders: true
+                                header: false
+                                persist_features: true
+                                show_slider_percent: false
+                                smooth_color_wheel: true
+                                type: 'custom:light-entity-card'
+                                style: |
+                                    ha-card {
+                                      box-shadow: none !important;
+                                    }
+                            column_height: 1
+                            layout: vertical
+                            type: 'custom:layout-card'
+                          - entities:
+                              - color_temp: true
+                                entity: light.cabinet
+                                header: false
+                                persist_features: true
+                                type: 'custom:light-slider-card'
+                            show_header_toggle: false
+                            style: |
+                                :host{
+                                  height: 100%;
+                                  z-index: 0;  
+                                }
+                                ha-card {
+                                  box-shadow: none !important;
+                                }
+                            type: entities
+                        column_num: 2
+                        layout: horizontal
+                        max_width:
+                          - 60%
+                          - 40%
+                        type: 'custom:layout-card'
+                    type: 'custom:vertical-stack-in-card'
+                  deviceID:
+                    - this
+                  style:
+                    '--ha-card-border-radius': 0vw 0vw 0.8vw 0.8vw
+                    border-radius: 0.8vw
+                    opacity: 0.9
+                  title: Cabinet
+              icon: 'mdi:lamp'
+              style:
+                '--iron-icon-height': 1.7vw
+                '--iron-icon-width': 1.7vw
+                '--paper-item-icon-active-color': '#000000'
+                '--paper-item-icon-color': darkgrey
+                align-items: center
+                background-color: '#FFFFFF'
+                border-radius: 100%
+                box-shadow: '0px 0px 28px 0px rgba(0,0,0,0.39)'
+                display: flex
+                height: 3vw
+                justify-content: center
+                left: 72.5%
+                margin-left: '-1.5vw'
+                margin-top: '-1.5vw'
+                top: 54.5%
+                transform: scale(1.2)
+                width: 3vw
+              tap_action:
+                action: toggle
+              type: state-icon

@@ -14,8 +14,15 @@
 .storage
 .cloud
 .google.token
+.vscode
+node-red
+custom
+custom_components
+tts
+www
 
 # Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
 ip_bans.yaml
 secrets.yaml
 known_devices.yaml
+google_calendars.yaml
