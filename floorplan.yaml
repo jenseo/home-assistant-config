@@ -11,6 +11,12 @@ views:
     cards:
       - type: 'custom:config-template-card'
         variables:
+          floorplan: 
+            leftCrop: 63
+            topCrop: 36
+            bottomCrop: 10
+            width: 1793
+            height: 955
           getLightColor: |
             number => {
               if (number <= 190) {
@@ -43,6 +49,7 @@ views:
             }
         entities:
           - light.hallbyra
+          - switch.danslampa
         card:
           type: picture-elements
           image: /local/floorplan/nighttime.png
@@ -77,13 +84,21 @@ views:
               template: ikea-light
               variables:
                 - entity: light.hallbyra
-                - image-url: /local/floorplan/lights/hallway-drawer-cropped.png
+                - image-url: /local/floorplan/lights/hallway-drawer.png
                 - opacity: "${states['light.hallbyra'].state === 'on' ? (states['light.hallbyra'].attributes.brightness / 255) : '0'}"
-                - top: 53.340635268%
-                - left: 3.09760374%
-                - width: 78.784336645%
+                - bottom: "${ ((19 - floorplan.bottomCrop) / floorplan.height * 100) + '%' }"
+                - left: "${ ((114 - floorplan.leftCrop) / floorplan.width * 100) + '%' }"
+                - width: "${ ((1419 / floorplan.width) * 100) + '%' }"
                 - background-color: '${ getLightColor(states["light.hallbyra"].attributes.color_temp) }'
-
+            - type: custom:decluttering-card
+              template: ikea-light
+              variables:
+                - entity: switch.danslampa
+                - image-url: /local/floorplan/lights/dance-light.png
+                - opacity: "${states['switch.danslampa'].state === 'on' ? '1' : '0'}"
+                - top: "${ ((44 - floorplan.topCrop) / floorplan.height * 100) + '%' }"
+                - left: "${ ((71 - floorplan.leftCrop) / floorplan.width * 100) + '%' }"
+                - width: "${ ((858 / floorplan.width) * 100) + '%' }"
             - entity: light.hallbyra
               hold_action:
                 action: call-service

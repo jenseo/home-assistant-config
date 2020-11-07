@@ -1,4 +1,8 @@
 ikea-light:
+  default:
+      - top: auto
+      - bottom: auto
+      - background-color: transparent
   element:
     type: image
     image: '[[image-url]]'
@@ -7,6 +11,7 @@ ikea-light:
       mix-blend-mode: lighten
       opacity: '[[opacity]]'
       top: '[[top]]'
+      bottom: '[[bottom]]'
       left: '[[left]]'
       width: '[[width]]'
       height: auto
