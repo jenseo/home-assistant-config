@@ -1,5 +1,5 @@
 title: Floorplan
-decluttering_templates: !include decluttering-floorplan.yaml
+decluttering_templates: !include ./floorplan/lights.yaml
 views:
   - title: Floorplan
     path: floorplan
