@@ -10,13 +10,32 @@ views:
     badges: []
     cards:
       - type: 'custom:config-template-card'
+        entities:
+          - light.hallbyra
+          - switch.danslampa
+          - sensor.sunlight_opacity
         variables:
-          floorplan: 
+          floorplan:
             leftCrop: 63
             topCrop: 36
             bottomCrop: 10
             width: 1793
             height: 955
+          setOpacity: |
+            entity => {
+              if(states[entity].state === 'on') {
+                if (typeof states[entity].attributes.brightness !== 'undefined') {
+                  return states[entity].attributes.brightness / 255;
+                }
+                return 1;
+              }
+              return 0;
+            }
+          setPosition: |
+            (position, crop, divider) => {
+              const value = `${((position - crop) / divider * 100)}%`;
+              return value;
+            }
           getLightColor: |
             number => {
               if (number <= 190) {
@@ -47,9 +66,6 @@ views:
                   return 'transparent';
               }
             }
-        entities:
-          - light.hallbyra
-          - switch.danslampa
         card:
           type: picture-elements
           image: /local/floorplan/nighttime.png
@@ -74,7 +90,7 @@ views:
                     left: 50%
                     top: 50%
                     mix-blend-mode: lighten
-                    opacity: '${ states[''sensor.sunlight_opacity''].state }'
+                    opacity: "${ states['sensor.sunlight_opacity'].state }"
                   action: none
                   tap_action:
                     action: none
@@ -84,27 +100,27 @@ views:
               template: ikea-light
               variables:
                 - entity: light.hallbyra
-                - image-url: /local/floorplan/lights/hallway-drawer.png
-                - opacity: "${states['light.hallbyra'].state === 'on' ? (states['light.hallbyra'].attributes.brightness / 255) : '0'}"
-                - bottom: "${ ((19 - floorplan.bottomCrop) / floorplan.height * 100) + '%' }"
-                - left: "${ ((114 - floorplan.leftCrop) / floorplan.width * 100) + '%' }"
+                - image: '/local/floorplan/lights/hallway-drawer.png'
+                - bottom: "${ setPosition(19, floorplan.bottomCrop, floorplan.height) }"
+                - left: "${ setPosition(114, floorplan.leftCrop, floorplan.width) }"
                 - width: "${ ((1419 / floorplan.width) * 100) + '%' }"
-                - background-color: '${ getLightColor(states["light.hallbyra"].attributes.color_temp) }'
+                - background-color: "${ getLightColor(states['light.hallbyra'].attributes.color_temp) }"
+                - opacity: "${ setOpacity('light.hallbyra') }"
             - type: custom:decluttering-card
               template: ikea-light
               variables:
                 - entity: switch.danslampa
-                - image-url: /local/floorplan/lights/dance-light.png
-                - opacity: "${states['switch.danslampa'].state === 'on' ? '1' : '0'}"
-                - top: "${ ((44 - floorplan.topCrop) / floorplan.height * 100) + '%' }"
-                - left: "${ ((71 - floorplan.leftCrop) / floorplan.width * 100) + '%' }"
+                - image: '/local/floorplan/lights/dance-light.png'
+                - top: "${ setPosition(44, floorplan.topCrop, floorplan.height) }"
+                - left: "${ setPosition(71, floorplan.leftCrop, floorplan.width) }"
                 - width: "${ ((858 / floorplan.width) * 100) + '%' }"
+                - opacity: "${ setOpacity('switch.danslampa') }"
             - entity: light.hallbyra
               hold_action:
                 action: call-service
                 service: browser_mod.popup
                 service_data:
-                  title: '${ states["light.hallbyra"].attributes.friendly_name }'
+                  title: "${ states['light.hallbyra'].attributes.friendly_name }"
                   deviceID: this
                   card:
                     type: entities

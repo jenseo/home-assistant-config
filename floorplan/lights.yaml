@@ -1,26 +1,47 @@
 ikea-light:
   default:
-      - top: auto
-      - bottom: auto
-      - background-color: transparent
+    - top: auto
+    - bottom: auto
+    - left: auto
+    - right: auto
+    - height: auto
+    - background-color: transparent
   element:
-    type: image
-    image: '[[image-url]]'
-    entity: '[[entity]]'
+    type: 'custom:config-template-card'
+    entities:
+      - '[[entity]]'
     style: 
       mix-blend-mode: lighten
-      opacity: '[[opacity]]'
       top: '[[top]]'
       bottom: '[[bottom]]'
       left: '[[left]]'
+      right: '[[right]]'
       width: '[[width]]'
-      height: auto
+      height: '[[height]]'
       background-color: '[[background-color]]'
-      -webkit-mask-image: url('[[image-url]]')
+      -webkit-mask-image: url('[[image]]')
       -webkit-mask-size: 100% 100%
+      opacity: '[[opacity]]'
       transform: none
-    action: none
-    tap_action:
+    element:
+      type: image
+      image: '[[image]]'
+      entity: '[[entity]]'
       action: none
-    hold_action:
-      action: none
+      tap_action:
+        action: none
+      hold_action:
+        action: none
+      style: 
+        mix-blend-mode: lighten
+        top: '[[top]]'
+        bottom: '[[bottom]]'
+        left: '[[left]]'
+        right: '[[right]]'
+        width: '[[width]]'
+        height: '[[height]]'
+        background-color: '[[background-color]]'
+        -webkit-mask-image: url('[[image]]')
+        -webkit-mask-size: 100% 100%
+        opacity: '[[opacity]]'
+        transform: none
