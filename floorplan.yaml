@@ -12,6 +12,7 @@ views:
       - type: 'custom:config-template-card'
         entities:
           - light.hallbyra
+          - light.vardagsrumsbord
           - switch.danslampa
           - sensor.sunlight_opacity
         variables:
@@ -110,11 +111,21 @@ views:
               template: ikea-light
               variables:
                 - entity: switch.danslampa
-                - image: '/local/floorplan/lights/dance-light.png'
+                - image: '/local/floorplan/lights/living-room-dance-light.png'
                 - top: "${ setPosition(44, floorplan.topCrop, floorplan.height) }"
                 - left: "${ setPosition(71, floorplan.leftCrop, floorplan.width) }"
                 - width: "${ ((858 / floorplan.width) * 100) + '%' }"
                 - opacity: "${ setOpacity('switch.danslampa') }"
+            - type: custom:decluttering-card
+              template: ikea-light
+              variables:
+                - entity: light.vardagsrumsbord
+                - image: '/local/floorplan/lights/living-room-table.png'
+                - top: "${ setPosition(44, floorplan.topCrop, floorplan.height) }"
+                - left: "${ setPosition(71, floorplan.leftCrop, floorplan.width) }"
+                - width: "${ ((859 / floorplan.width) * 100) + '%' }"
+                - background-color: "${ getLightColor(states['light.vardagsrumsbord'].attributes.color_temp) }"
+                - opacity: "${ setOpacity('light.vardagsrumsbord') }"
             - entity: light.hallbyra
               hold_action:
                 action: call-service
