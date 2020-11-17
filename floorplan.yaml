@@ -1,5 +1,5 @@
 title: Floorplan
-decluttering_templates: !include ./floorplan/lights.yaml
+decluttering_templates: !include_dir_named floorplan/
 views:
   - title: Floorplan
     path: floorplan
@@ -75,6 +75,11 @@ views:
                   return 'transparent';
               }
             }
+
+
+##### NIGHT IMAGE #####
+
+
         card:
           type: picture-elements
           image: '/local/floorplan/nighttime.png?v=1'
@@ -84,6 +89,11 @@ views:
                 width: 100%;
               }
           elements:
+
+
+##### CONDITIONAL DAY IMAGE #####
+
+
             - type: conditional
               conditions:
                 - entity: sun.sun
@@ -104,6 +114,9 @@ views:
                     action: none
                   hold_action:
                     action: none
+
+##### LIGHT OVERLAY IMAGES #####
+
             - type: custom:decluttering-card
               template: ikea-light
               variables:
@@ -130,6 +143,13 @@ views:
                 - entity: switch.danslampa
                 - image: '/local/floorplan/lights/living-room-dance-light.png'
                 - opacity: "${ setOpacity('switch.danslampa') }"
+            - type: custom:decluttering-card
+              template: ikea-light
+              variables:
+                - entity: light.vardagsrumsbord
+                - image: '/local/floorplan/lights/living-room-table.png'
+                - background-color: "${ getLightColor(states['light.vardagsrumsbord'].attributes.color_temp) }"
+                - opacity: "${ setOpacity('light.vardagsrumsbord') }"
             - type: custom:decluttering-card
               template: ikea-light
               variables:
@@ -169,100 +189,105 @@ views:
                 - image: '/local/floorplan/lights/signe-ceiling.png'
                 - opacity: "${ setOpacity('light.taklampa_signes_rum') }"
                 - background-color: "${ getLightColor(states['light.taklampa_signes_rum'].attributes.color_temp) }"
-            - entity: light.hallbyra
-              hold_action:
-                action: call-service
-                service: browser_mod.popup
-                service_data:
-                  title: "${ states['light.hallbyra'].attributes.friendly_name }"
-                  deviceID: this
-                  card:
-                    type: entities
-                    entities:
-                      - type: custom:light-popup-card
-                        entity: '${ states["light.hallbyra"].entity_id }'
-                        icon: none
-                        fullscreen: false
-                        brightnessWidth: 130px
-                        brightnessHeight: 360px
-                        borderRadius: 1.7rem
-                        sliderColor: '#c7c7c7'
-                        sliderTrackColor: rgba(25, 25, 25, 0.9)
-                        actionSize: 4.5em
-                        actionsInARow: 2
-                        style: |
-                          #popup {
-                            margin: -2.4em 0 1.4em 0; }
-                          #popup > div.range-holder > input[type=range] {
-                            cursor: grab; }
-                          #brightnessValue {
-                            color: rgba(255, 255, 255, 0.8); margin: -1.9em 0 0 0; font-size: 2em; font-weight: 400; 
-                            position: absolute; z-index: 100; font-family: 'Roboto', sans-serif; letter-spacing: 0.02em; pointer-events: none; 
-                            mix-blend-mode: difference; text-align:center; width: 3.4em; height: 3.4em; }
-                          #popup > div.range-holder > input[type=range]::-webkit-slider-thumb {
-                            border: 0; eight: 0; width: 0; cursor: grabbing; }
-                          #popup > div.action-holder > div > div {
-                            margin: 0.8em 0.5em -0.8em 0.5em; }
-                          #popup > div.action-holder > div:last-child > div:last-child > .color {
-                            background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 80%), 
-                            conic-gradient(rgb(120,39,230), rgb(230,34,231), rgb(228,5,136), rgb(228,25,25), rgb(229,105,30), rgb(232,226,46), 
-                            rgb(125,230,41), rgb(52,232,40), rgb(51,231,92), rgb(52,232,224),rgb(32,125,229), rgb(18,39,229), rgb(120,39,230));
-                            border-width: 2px; border-color: #e6e6e6; --size: 4.4em !important; }
-                        actions:
-                          - service: light.turn_on
-                            service_data:
-                              entity_id: '${ states["light.hallbyra"].entity_id }'
-                              color_temp: 153
-                            color: "#d8d9e1"
-                          - service: light.turn_on
-                            service_data:
-                              entity_id: '${ states["light.hallbyra"].entity_id }'
-                              color_temp: 326
-                            color: "#d5b08d"
-                          - service: light.turn_on
-                            service_data:
-                              entity_id: '${ states["light.hallbyra"].entity_id }'
-                              color_temp: 500
-                            color: "#ce944b"
-                          - service: browser_mod.popup
-                            service_data:
-                              title: '${ states["light.hallbyra"].attributes.friendly_name }'
-                              deviceID: this
-                              card:
-                                type: entities
-                                show_header_toggle: false
-                                entities:
-                                  - entity: '${ states["light.hallbyra"].entity_id }'
-                                    secondary_info: last-changed
-                                  - type: custom:light-entity-card
-                                    entity: '${ states["light.hallbyra"].entity_id }'
-                                    brightness: false
-                                    color_temp: true
-                                    white_value: true
-                                    full_width_sliders: true
-                                    hide_header: true
-                                    show_slider_percent: true
-                                    smooth_color_wheel: false
-                                    consolidate_entities: true
-              icon: 'mdi:lamp'
-              style:
-                '--iron-icon-height': 1.7vw
-                '--iron-icon-width': 1.7vw
-                '--paper-item-icon-active-color': '#000000'
-                '--paper-item-icon-color': darkgrey
-                align-items: center
-                background-color: '#FFFFFF'
-                border-radius: 100%
-                box-shadow: '0px 0px 28px 0px rgba(0,0,0,0.39)'
-                display: flex
-                height: 2.4vw
-                justify-content: center
-                left: 50%
-                margin-left: '-1.2vw'
-                margin-top: '-1.2vw'
-                top: 55%
-                transform: scale(1.2)
-                width: 2.4vw
-              tap_action:
-                action: toggle
-              type: state-icon
+            
+##### LIGHT CONTROL ICONS #####            
+            
+            - type: custom:decluttering-card
+              template: light-controls
+              variables:
+                - entity: light.hallbyra
+                - left: 51%
+                - top: 56%
+                - type: state-icon
+                - name: "${ states['light.hallbyra'].attributes.friendly_name }"
+                - icon: mdi:lamp
+            - type: custom:decluttering-card
+              template: light-controls
+              variables:
+                - entity: switch.danslampa
+                - left: 22%
+                - top: 48%
+                - type: state-icon
+                - name: "${ states['switch.danslampa'].attributes.friendly_name }"
+                - icon: mdi:floor-lamp-dual
+            - type: custom:decluttering-card
+              template: light-controls
+              variables:
+                - entity: light.vardagsrumsbord
+                - left: 43.5%
+                - top: 20%
+                - type: state-icon
+                - name: "${ states['light.vardagsrumsbord'].attributes.friendly_name }"
+                - icon: mdi:ceiling-light
+            - type: custom:decluttering-card
+              template: light-controls
+              variables:
+                - entity: light.trappa
+                - left: 55%
+                - top: 88%
+                - type: state-icon
+                - name: "${ states['light.trappa'].attributes.friendly_name }"
+                - icon: mdi:coach-lamp
+            - type: custom:decluttering-card
+              template: light-controls
+              variables:
+                - entity: light.hall_ytterdorr_1
+                - left: 42.5%
+                - top: 76%
+                - type: state-icon
+                - name: "${ states['light.hall_ytterdorr_1'].attributes.friendly_name }"
+                - icon: mdi:ceiling-light
+            - type: custom:decluttering-card
+              template: light-controls
+              variables:
+                - entity: light.hall_sovrum_1
+                - left: 64%
+                - top: 60%
+                - type: state-icon
+                - name: "${ states['light.hall_sovrum_1'].attributes.friendly_name }"
+                - icon: mdi:ceiling-light
+            - type: custom:decluttering-card
+              template: light-controls
+              variables:
+                - entity: light.kokslampa
+                - left: 28.6%
+                - top: 82.4%
+                - type: state-icon
+                - name: "${ states['light.kokslampa'].attributes.friendly_name }"
+                - icon: mdi:ceiling-light
+            - type: custom:decluttering-card
+              template: light-controls
+              variables:
+                - entity: light.diskbank
+                - left: 15%
+                - top: 67%
+                - type: state-icon
+                - name: "${ states['light.diskbank'].attributes.friendly_name }"
+                - icon: mdi:ceiling-light
+            - type: custom:decluttering-card
+              template: light-controls
+              variables:
+                - entity: light.fonsterlampa_mot_uterum
+                - left: 22%
+                - top: 10%
+                - type: state-icon
+                - name: "${ states['light.fonsterlampa_mot_uterum'].attributes.friendly_name }"
+                - icon: mdi:lamp
+            - type: custom:decluttering-card
+              template: light-controls
+              variables:
+                - entity: light.fonsterlampa_vardagsrum
+                - left: 2%
+                - top: 33%
+                - type: state-icon
+                - name: "${ states['light.fonsterlampa_mot_uterum'].attributes.friendly_name }"
+                - icon: mdi:ceiling-light
+            - type: custom:decluttering-card
+              template: light-controls
+              variables:
+                - entity: light.taklampa_signes_rum
+                - left: 59.5%
+                - top: 33%
+                - type: state-icon
+                - name: "${ states['light.taklampa_signes_rum'].attributes.friendly_name }"
+                - icon: mdi:ceiling-light
