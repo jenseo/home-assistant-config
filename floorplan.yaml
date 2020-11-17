@@ -12,8 +12,16 @@ views:
       - type: 'custom:config-template-card'
         entities:
           - light.hallbyra
+          - light.hall_sovrum_1
+          - light.hall_ytterdorr_1
+          - light.trappa
           - light.vardagsrumsbord
+          - light.fonsterlampa_mot_uterum
+          - light.fonsterlampa_vardagsrum
           - switch.danslampa
+          - light.kokslampa
+          - light.diskbank
+          - light.taklampa_signes_rum
           - sensor.sunlight_opacity
         variables:
           floorplan:
@@ -69,12 +77,11 @@ views:
             }
         card:
           type: picture-elements
-          image: /local/floorplan/nighttime.png
+          image: '/local/floorplan/nighttime.png?v=1'
           style: |
               ha-card {
                 background: transparent;
-                width: 84%;
-                left:16%;
+                width: 100%;
               }
           elements:
             - type: conditional
@@ -84,7 +91,7 @@ views:
               elements:
                 - type: image
                   entity: sun.sun
-                  image: /local/floorplan/daytime.png
+                  image: '/local/floorplan/daytime.png?v=1'
                   style:
                     height: 100%
                     width: 100%
@@ -102,30 +109,66 @@ views:
               variables:
                 - entity: light.hallbyra
                 - image: '/local/floorplan/lights/hallway-drawer.png'
-                - bottom: "${ setPosition(19, floorplan.bottomCrop, floorplan.height) }"
-                - left: "${ setPosition(114, floorplan.leftCrop, floorplan.width) }"
-                - width: "${ ((1419 / floorplan.width) * 100) + '%' }"
                 - background-color: "${ getLightColor(states['light.hallbyra'].attributes.color_temp) }"
                 - opacity: "${ setOpacity('light.hallbyra') }"
             - type: custom:decluttering-card
               template: ikea-light
               variables:
+                - entity: light.hall_ytterdorr_1
+                - image: '/local/floorplan/lights/hallway-ceiling-door.png'
+                - opacity: "${ setOpacity('light.hall_ytterdorr_1') }"
+            - type: custom:decluttering-card
+              template: ikea-light
+              variables:
+                - entity: light.hall_sovrum_1
+                - image: '/local/floorplan/lights/hallway-ceiling-bedrooms.png'
+                - background-color: "${ getLightColor(states['light.hall_sovrum_1'].attributes.color_temp) }"
+                - opacity: "${ setOpacity('light.hall_sovrum_1') }"
+            - type: custom:decluttering-card
+              template: ikea-light
+              variables:
                 - entity: switch.danslampa
                 - image: '/local/floorplan/lights/living-room-dance-light.png'
-                - top: "${ setPosition(44, floorplan.topCrop, floorplan.height) }"
-                - left: "${ setPosition(71, floorplan.leftCrop, floorplan.width) }"
-                - width: "${ ((858 / floorplan.width) * 100) + '%' }"
                 - opacity: "${ setOpacity('switch.danslampa') }"
             - type: custom:decluttering-card
               template: ikea-light
               variables:
-                - entity: light.vardagsrumsbord
-                - image: '/local/floorplan/lights/living-room-table.png'
-                - top: "${ setPosition(44, floorplan.topCrop, floorplan.height) }"
-                - left: "${ setPosition(71, floorplan.leftCrop, floorplan.width) }"
-                - width: "${ ((859 / floorplan.width) * 100) + '%' }"
-                - background-color: "${ getLightColor(states['light.vardagsrumsbord'].attributes.color_temp) }"
-                - opacity: "${ setOpacity('light.vardagsrumsbord') }"
+                - entity: light.fonsterlampa_mot_uterum
+                - image: '/local/floorplan/lights/living-room-tv-light.png'
+                - opacity: "${ setOpacity('light.fonsterlampa_mot_uterum') }"
+            - type: custom:decluttering-card
+              template: ikea-light
+              variables:
+                - entity: light.fonsterlampa_vardagsrum
+                - image: '/local/floorplan/lights/living-room-window.png'
+                - opacity: "${ setOpacity('light.fonsterlampa_vardagsrum') }"
+            - type: custom:decluttering-card
+              template: ikea-light
+              variables:
+                - entity: light.trappa
+                - image: '/local/floorplan/lights/staircase.png'
+                - background-color: "${ getLightColor(states['light.trappa'].attributes.color_temp) }"
+                - opacity: "${ setOpacity('light.trappa') }"
+            - type: custom:decluttering-card
+              template: ikea-light
+              variables:
+                - entity: light.kokslampa
+                - image: '/local/floorplan/lights/kitchen-table.png'
+                - background-color: "${ getLightColor(states['light.kokslampa'].attributes.color_temp) }"
+                - opacity: "${ setOpacity('light.kokslampa') }"
+            - type: custom:decluttering-card
+              template: ikea-light
+              variables:
+                - entity: light.diskbank
+                - image: '/local/floorplan/lights/kitchen-sink.png'
+                - opacity: "${ setOpacity('light.diskbank') }"
+            - type: custom:decluttering-card
+              template: ikea-light
+              variables:
+                - entity: light.taklampa_signes_rum
+                - image: '/local/floorplan/lights/signe-ceiling.png'
+                - opacity: "${ setOpacity('light.taklampa_signes_rum') }"
+                - background-color: "${ getLightColor(states['light.taklampa_signes_rum'].attributes.color_temp) }"
             - entity: light.hallbyra
               hold_action:
                 action: call-service
