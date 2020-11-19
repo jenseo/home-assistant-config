@@ -22,7 +22,6 @@ lovelace:
       icon: 'mdi:floor-plan'
       show_in_sidebar: true
       filename: floorplan.yaml
-      require_admin: true
 
 http:  
   server_port: !secret server_port

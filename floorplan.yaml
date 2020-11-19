@@ -5,6 +5,7 @@ views:
     path: floorplan
     visible:
       - user: 7fdffcaeaaf54b98b330878819fde53b
+      - user: fa063b0a882d4d0db342e51962d59c08
     panel: true
     icon: 'mdi:floor-plan'
     badges: []
@@ -18,18 +19,11 @@ views:
           - light.vardagsrumsbord
           - light.fonsterlampa_mot_uterum
           - light.fonsterlampa_vardagsrum
-          - switch.danslampa
+          - light.danslampa
           - light.kokslampa
           - light.diskbank
           - light.taklampa_signes_rum
-          - sensor.sunlight_opacity
         variables:
-          floorplan:
-            leftCrop: 63
-            topCrop: 36
-            bottomCrop: 10
-            width: 1793
-            height: 955
           setOpacity: |
             entity => {
               if(states[entity].state === 'on') {
@@ -40,41 +34,6 @@ views:
               }
               return 0;
             }
-          setPosition: |
-            (position, crop, divider) => {
-              const value = `${((position - crop) / divider * 100)}%`;
-              return value;
-            }
-          getLightColor: |
-            number => {
-              if (number <= 190) {
-                  return '#d6dfff';
-                }
-              else if (number <= 227) {
-                return '#e2e7ff';
-              }
-              else if (number <= 264) {
-                return '#f4f2ff';
-              }
-              else if (number <= 302) {
-                return '#fff3f0';
-              }
-              else if (number <= 340) {
-                return '#ffe6cf';
-              }
-              else if (number <= 378) {
-                return '#ffd3a5';
-              }
-              else if (number <= 416) {
-                return '#ffb86f';
-              }
-              else if (number <= 454) {
-                return '#ff8c19';
-              }
-              else {
-                  return 'transparent';
-              }
-            }
 
 
 ##### NIGHT IMAGE #####
@@ -84,8 +43,8 @@ views:
           type: picture-elements
           image: '/local/floorplan/nighttime.png?v=1'
           style: |
-              ha-card {
-                background: transparent;
+              ha-card:first-child {
+                background: #000;
                 width: 100%;
               }
           elements:
@@ -122,7 +81,6 @@ views:
               variables:
                 - entity: light.hallbyra
                 - image: '/local/floorplan/lights/hallway-drawer.png'
-                - background-color: "${ getLightColor(states['light.hallbyra'].attributes.color_temp) }"
                 - opacity: "${ setOpacity('light.hallbyra') }"
             - type: custom:decluttering-card
               template: ikea-light
@@ -135,20 +93,18 @@ views:
               variables:
                 - entity: light.hall_sovrum_1
                 - image: '/local/floorplan/lights/hallway-ceiling-bedrooms.png'
-                - background-color: "${ getLightColor(states['light.hall_sovrum_1'].attributes.color_temp) }"
                 - opacity: "${ setOpacity('light.hall_sovrum_1') }"
             - type: custom:decluttering-card
               template: ikea-light
               variables:
-                - entity: switch.danslampa
+                - entity: light.danslampa
                 - image: '/local/floorplan/lights/living-room-dance-light.png'
-                - opacity: "${ setOpacity('switch.danslampa') }"
+                - opacity: "${ setOpacity('light.danslampa') }"
             - type: custom:decluttering-card
               template: ikea-light
               variables:
                 - entity: light.vardagsrumsbord
                 - image: '/local/floorplan/lights/living-room-table.png'
-                - background-color: "${ getLightColor(states['light.vardagsrumsbord'].attributes.color_temp) }"
                 - opacity: "${ setOpacity('light.vardagsrumsbord') }"
             - type: custom:decluttering-card
               template: ikea-light
@@ -167,14 +123,12 @@ views:
               variables:
                 - entity: light.trappa
                 - image: '/local/floorplan/lights/staircase.png'
-                - background-color: "${ getLightColor(states['light.trappa'].attributes.color_temp) }"
                 - opacity: "${ setOpacity('light.trappa') }"
             - type: custom:decluttering-card
               template: ikea-light
               variables:
                 - entity: light.kokslampa
                 - image: '/local/floorplan/lights/kitchen-table.png'
-                - background-color: "${ getLightColor(states['light.kokslampa'].attributes.color_temp) }"
                 - opacity: "${ setOpacity('light.kokslampa') }"
             - type: custom:decluttering-card
               template: ikea-light
@@ -188,7 +142,6 @@ views:
                 - entity: light.taklampa_signes_rum
                 - image: '/local/floorplan/lights/signe-ceiling.png'
                 - opacity: "${ setOpacity('light.taklampa_signes_rum') }"
-                - background-color: "${ getLightColor(states['light.taklampa_signes_rum'].attributes.color_temp) }"
             
 ##### LIGHT CONTROL ICONS #####            
             
@@ -204,11 +157,11 @@ views:
             - type: custom:decluttering-card
               template: light-controls
               variables:
-                - entity: switch.danslampa
+                - entity: light.danslampa
                 - left: 22%
                 - top: 48%
                 - type: state-icon
-                - name: "${ states['switch.danslampa'].attributes.friendly_name }"
+                - name: "${ states['light.danslampa'].attributes.friendly_name }"
                 - icon: mdi:floor-lamp-dual
             - type: custom:decluttering-card
               template: light-controls
@@ -291,3 +244,24 @@ views:
                 - type: state-icon
                 - name: "${ states['light.taklampa_signes_rum'].attributes.friendly_name }"
                 - icon: mdi:ceiling-light
+
+##### MENU ##### 
+
+            - type: 'custom:button-card'
+              icon: mdi:weather-night
+              name: Godnatt
+              styles:
+                card:
+                  - height: 180px
+                  - width: 180px
+                  - bottom: 0
+                  - left: 0
+                  - margin-bottom: -180px
+                  - display: flex
+                  - justify-content: center
+                  - align-items: center
+                  - background-color: '#2B2D2F'
+                name:
+                  - text-transform: uppercase
+              style: 
+                transform: none
