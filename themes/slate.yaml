@@ -1,6 +1,6 @@
 # Based on https://github.com/seangreen2/slate_theme
 slate:
-  lovelace-background: '#434b4d'
+  lovelace-background: '#000000'
 
   # Main colors
   primary-color: '#434b4d'
@@ -16,8 +16,8 @@ slate:
   # Sidebar
   sidebar-icon-color: '#9e9e9e'
   # Background colors
-  primary-background-color: '#222627'
-  secondary-background-color: '#434b4d'
+  primary-background-color: '#000000'
+  secondary-background-color: '#000000'
   divider-color: 'rgba(0, 0, 0, .12)'
   table-row-background-color: '#292929'
   table-row-alternative-background-color: '#292929'
@@ -82,4 +82,6 @@ slate:
   lumo-shade-5pct: 'rgba(34, 34, 34, .05)'
   lumo-tint-5pct: '#222222'
   # fix for device configuration screen
-  card-background-color: "var(--paper-card-background-color)"
+  card-background-color: '#000000'
+  ha-card-background: '#000000'
+  mdc-theme-surface: '#434b4d'
