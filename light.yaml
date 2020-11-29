@@ -1,0 +1,22 @@
+- platform: group
+  name: Living room lights
+  entities:
+    - light.vardagsrumsbord
+    - light.fonsterlampa_vardagsrum
+    - light.fonsterlampa_mot_uterum
+    - light.danslampa
+- platform: group
+  name: Kitchen lights
+  entities:
+    - light.diskbank
+    - light.kokslampa
+- platform: group
+  name: Hallway lights
+  entities:
+    - light.hall
+    - light.hallbyra
+    - light.trappa
+- platform: group
+  name: Signes rum
+  entities:
+    - light.taklampa_signes_rum

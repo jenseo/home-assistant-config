@@ -1,0 +1,182 @@
+- id: '1605907852090'
+  name: Mysbelysning
+  entities:
+    light.diskbank:
+      effect_list:
+      - colorloop
+      is_deconz_group: true
+      all_on: false
+      friendly_name: Diskbänk
+      supported_features: 45
+      state: 'off'
+    light.kokslampa:
+      min_mireds: 153
+      max_mireds: 454
+      brightness: 51
+      color_temp: 376
+      is_deconz_group: false
+      friendly_name: Köksbord
+      supported_features: 43
+      state: 'on'
+    light.hall:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      is_deconz_group: true
+      all_on: false
+      friendly_name: Taklampa hall
+      supported_features: 47
+      state: 'off'
+    light.hallbyra:
+      min_mireds: 153
+      max_mireds: 454
+      brightness: 51
+      color_temp: 404
+      is_deconz_group: false
+      friendly_name: Hallbyrå
+      supported_features: 43
+      state: 'on'
+    light.danslampa:
+      effect_list:
+      - colorloop
+      brightness: 28
+      is_deconz_group: true
+      all_on: true
+      friendly_name: Danslampa
+      supported_features: 45
+      state: 'on'
+    light.fonsterlampa_mot_uterum:
+      brightness: 32
+      is_deconz_group: false
+      friendly_name: Fönsterlampa mot uterum
+      supported_features: 41
+      state: 'on'
+    light.fonsterlampa_vardagsrum:
+      brightness: 66
+      is_deconz_group: false
+      friendly_name: Fönsterlampa vardagsrum
+      supported_features: 41
+      state: 'on'
+    light.vardagsrumsbord:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      brightness: 51
+      color_temp: 423
+      is_deconz_group: true
+      all_on: true
+      friendly_name: Vardagsrumsbord
+      supported_features: 47
+      state: 'on'
+    light.trappa:
+      min_mireds: 140
+      max_mireds: 650
+      brightness: 89
+      color_temp: 468
+      is_deconz_group: false
+      friendly_name: Trappa
+      supported_features: 43
+      state: 'on'
+  icon: mdi:glass-wine
+- id: '1605909215252'
+  name: Godnatt
+  entities:
+    light.kokslampa:
+      min_mireds: 153
+      max_mireds: 454
+      is_deconz_group: false
+      friendly_name: Köksbord
+      supported_features: 43
+      state: 'off'
+    light.diskbank:
+      effect_list:
+      - colorloop
+      is_deconz_group: true
+      all_on: false
+      friendly_name: Diskbänk
+      supported_features: 45
+      state: 'off'
+    light.hall:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      is_deconz_group: true
+      all_on: false
+      friendly_name: Taklampa hall
+      supported_features: 47
+      state: 'off'
+    light.hallbyra:
+      min_mireds: 153
+      max_mireds: 454
+      brightness: 51
+      color_temp: 395
+      is_deconz_group: false
+      friendly_name: Hallbyrå
+      supported_features: 43
+      state: 'on'
+    light.fonsterlampa_mot_uterum:
+      is_deconz_group: false
+      friendly_name: Fönsterlampa mot uterum
+      supported_features: 41
+      state: 'off'
+    light.fonsterlampa_vardagsrum:
+      is_deconz_group: false
+      friendly_name: Fönsterlampa vardagsrum
+      supported_features: 41
+      state: 'off'
+    light.vardagsrumsbord:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      is_deconz_group: true
+      all_on: false
+      friendly_name: Vardagsrumsbord
+      supported_features: 47
+      state: 'off'
+    light.danslampa:
+      effect_list:
+      - colorloop
+      is_deconz_group: true
+      all_on: false
+      friendly_name: Danslampa
+      supported_features: 45
+      state: 'off'
+    light.spotlights_gillestuga:
+      effect_list:
+      - colorloop
+      is_deconz_group: true
+      all_on: false
+      friendly_name: Spotlights gillestuga
+      supported_features: 45
+      state: 'off'
+    switch.belysning_kontor:
+      friendly_name: Belysning i kontoret
+      state: 'off'
+    light.experimentlampa:
+      is_deconz_group: false
+      friendly_name: Experimentlampa
+      supported_features: 41
+      state: 'off'
+    switch.hornlampa_gillestuga:
+      friendly_name: Hörnlampa gillestuga
+      state: 'off'
+    light.taklampa_signes_rum:
+      effect_list:
+      - colorloop
+      is_deconz_group: true
+      all_on: false
+      friendly_name: Taklampa Signes rum
+      supported_features: 45
+      state: 'off'
+    light.trappa:
+      min_mireds: 140
+      max_mireds: 650
+      is_deconz_group: false
+      friendly_name: Trappa
+      supported_features: 43
+      state: 'off'
+  icon: mdi:weather-night

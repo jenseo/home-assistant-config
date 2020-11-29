@@ -1,5 +1,5 @@
 default:
-  - version: 1
+  - version: 2
 element:
   type: 'custom:config-template-card'
   entities:

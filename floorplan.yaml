@@ -144,6 +144,63 @@ views:
                 - entity: light.taklampa_signes_rum
                 - image: '/local/floorplan/lights/signe-ceiling.png'
                 - opacity: "${ setOpacity('light.taklampa_signes_rum') }"
+
+##### ROOM CONTROLS ##### 
+
+            - type: custom:decluttering-card
+              template: room-controls
+              variables:
+                - entity: light.living_room_lights
+                - room-name: Vardagsrum
+                - width: 48.5%
+                - height: 53.3%
+                - top: 0
+                - left: 0
+            - type: custom:decluttering-card
+              template: room-controls
+              variables:
+                - entity: light.signes_rum
+                - room-name: Signes rum
+                - width: 25.8%
+                - height: 53.3%
+                - top: 0
+                - left: 48.5%
+            - type: custom:decluttering-card
+              template: room-controls
+              variables:
+                - entity: light.signes_rum
+                - room-name: Signes rum
+                - width: 25.8%
+                - height: 53.3%
+                - top: 0
+                - left: 48.5%
+            - type: custom:decluttering-card
+              template: room-controls
+              variables:
+                - entity: light.kitchen_lights
+                - room-name: Kök
+                - width: 34.4%
+                - height: 46.7%
+                - top: 53.3%
+                - left: 0
+            - type: custom:decluttering-card
+              template: room-controls
+              variables:
+                - entity: light.hallway_lights
+                - room-name: Hall
+                - width: 22.4%
+                - height: 46.7%
+                - top: 53.3%
+                - left: 34.4%
+            - type: custom:decluttering-card
+              template: room-controls
+              variables:
+                - entity: light.hallway_lights
+                - room-name: Hall
+                - width: 25.2%
+                - height: 16%
+                - top: 53.3%
+                - left: 56.8%
             
 ##### LIGHT CONTROL ICONS #####            
             
@@ -247,18 +304,111 @@ views:
                 - name: "${ states['light.taklampa_signes_rum'].attributes.friendly_name }"
                 - icon: mdi:ceiling-light
 
-##### MENU ##### 
+##### MOUSE TRAPS #####
+
+            - type: conditional
+              conditions:
+                - entity: binary_sensor.mouse_trap_1
+                  state: 'on'
+              elements:
+                - type: state-icon
+                  entity: binary_sensor.mouse_trap_1
+                  icon: mdi:rodent
+                  style:
+                    '--iron-icon-height': 1.7vw
+                    '--iron-icon-width': 1.7vw
+                    '--paper-item-icon-active-color': '#FFFFFF'
+                    '--paper-item-icon-color': '#FFFFFF'
+                    align-items: center
+                    background-color: '#CC0000'
+                    border-radius: 100%
+                    box-shadow: '0px 0px 28px 0px rgba(0,0,0,0.39)'
+                    display: flex
+                    height: 3vw
+                    justify-content: center
+                    top: 81%
+                    left: 9%
+                    margin-left: '-1.5vw'
+                    margin-top: '-1.5vw'
+                    transform: scale(1.2)
+                    width: 3vw
+                  tap_action:
+                    action: none
+            - type: conditional
+              conditions:
+                - entity: binary_sensor.mouse_trap_2
+                  state: 'on'
+              elements:
+                - type: state-icon
+                  entity: binary_sensor.mouse_trap_2
+                  icon: mdi:rodent
+                  style:
+                    '--iron-icon-height': 1.7vw
+                    '--iron-icon-width': 1.7vw
+                    '--paper-item-icon-active-color': '#FFFFFF'
+                    '--paper-item-icon-color': '#FFFFFF'
+                    align-items: center
+                    background-color: '#CC0000'
+                    border-radius: 100%
+                    box-shadow: '0px 0px 28px 0px rgba(0,0,0,0.39)'
+                    display: flex
+                    height: 3vw
+                    justify-content: center
+                    top: 86%
+                    left: 12%
+                    margin-left: '-1.5vw'
+                    margin-top: '-1.5vw'
+                    transform: scale(1.2)
+                    width: 3vw
+                  tap_action:
+                    action: none
+            - type: conditional
+              conditions:
+                - entity: binary_sensor.mouse_trap_3
+                  state: 'on'
+              elements:
+                - type: state-icon
+                  entity: binary_sensor.mouse_trap_3
+                  icon: mdi:rodent
+                  style:
+                    '--iron-icon-height': 1.7vw
+                    '--iron-icon-width': 1.7vw
+                    '--paper-item-icon-active-color': '#FFFFFF'
+                    '--paper-item-icon-color': '#FFFFFF'
+                    align-items: center
+                    background-color: '#CC0000'
+                    border-radius: 100%
+                    box-shadow: '0px 0px 28px 0px rgba(0,0,0,0.39)'
+                    display: flex
+                    height: 3vw
+                    justify-content: center
+                    top: 86%
+                    left: 20%
+                    margin-left: '-1.5vw'
+                    margin-top: '-1.5vw'
+                    transform: scale(1.2)
+                    width: 3vw
+                  tap_action:
+                    action: none
+
+##### BUTTONS ##### 
 
             - type: 'custom:button-card'
-              icon: mdi:weather-night
-              name: Godnatt
+              icon: mdi:glass-wine
+              name: Mysbelysning
+              tap_action:
+                action: call-service
+                service: scene.turn_on
+                service_data:
+                  entity_id: scene.mysbelysning
               styles:
                 card: 
                   - height: 115%
                   - background-color: '#2B2D2F'
                 name:
                   - text-transform: uppercase
-                  - font-weight: 900
+                  - font-weight: 600
+                  - font-size: 15px
                   - color: "#FFFFFF"
                 icon:
                   - color: '#FFFFFF'
@@ -266,6 +416,33 @@ views:
                 transform: none
                 bottom: -15%
                 left: 0
-                width: 9.375%
+                width: 12%
+                height: 15%
+                background-color: '#2B2D2F'
+
+            - type: 'custom:button-card'
+              icon: mdi:weather-night
+              name: Godnatt
+              tap_action:
+                action: call-service
+                service: scene.turn_on
+                service_data:
+                  entity_id: scene.godnatt
+              styles:
+                card: 
+                  - height: 115%
+                  - background-color: '#2B2D2F'
+                name:
+                  - text-transform: uppercase
+                  - font-weight: 600
+                  - font-size: 15px
+                  - color: "#FFFFFF"
+                icon:
+                  - color: '#FFFFFF'
+              style:
+                transform: none
+                bottom: -15%
+                left: calc(12% + 6px)
+                width: 12%
                 height: 15%
                 background-color: '#2B2D2F'
