@@ -1,5 +1,5 @@
 person.jens_filipsson:
   entity_picture: /local/images/jens.jpg
 person.martina:
-  entity_picture: '"/local/images/martina.jpg"'
+  entity_picture: /local/images/martina.jpg
 sensor.sophamtning: {}

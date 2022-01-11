@@ -11,11 +11,6 @@ default_config:
 frontend:
   themes: !include_dir_merge_named themes
 
-browser_mod:
-  devices:
-    00c966ab-da859813:
-      name: Lenovo tablet
-
 lovelace:
   mode: storage
   dashboards:
@@ -31,22 +26,22 @@ http:
 
 automation: !include automations.yaml
 
+browser_mod:
+  devices:
+    375553f6-33529b78:
+      name: lenovotablet
+  disable:
+    - all
+
 # Enablers
 ios:
 cloud:
+nordpool:
 
 # Google Calendar
 google:
   client_id: !secret google_client_id
   client_secret: !secret google_client_secret
-  
-# Sector Alarm
-sector:
-  userid: !secret sector_alarm_email
-  password: !secret sector_alarm_pwd
-#  code: !secret sector_alarm_code
-  temp: true
-  lock: true    
 
 # Text to speech
 tts:
@@ -63,20 +58,62 @@ logger:
     homeassistant.components.http.ban: warning
  
 recorder:
-  purge_keep_days: 1
-  purge_interval: 1
   exclude:
     domains:
       - updater
       - media_player
-      - sun
-      - zone
       - group
-      - sensor
       - binary_sensor
       - automation
       
 sensor:
+  - platform: time_date
+    display_options:
+      - "time"
+      - "date"
+  - platform: template
+    sensors:
+      current_date_time:
+        value_template: >
+          {% set hours = now().strftime('%H') %}
+          {% set minutes = now().strftime('%M') %}
+          <span class="time">
+            {{ hours }}<span class="time-colon">:</span>{{ minutes }}
+          </span>
+        friendly_name: "Current Date/Time"
+
+  - platform: nordpool
+
+    # Should the prices include vat? Default True
+    VAT: true
+
+    # What currency the api fetches the prices in
+    # this is only need if you want a sensor in a non local currecy
+    #currency: "EUR"
+
+    # Helper so you can set your "low" price
+    # low_price = hour_price < average * low_price_cutoff
+    #low_price_cutoff: 0.95
+
+    # What power regions your are interested in.
+    # Possible values: "DK1", "DK2", "FI", "LT", "LV", "Oslo", "Kr.sand", "Bergen", "Molde", "Tr.heim", "Tromsø", "SE1", "SE2", "SE3","SE4", "SYS", "EE"
+    region: "SE3"
+
+    # How many decimals to use in the display of the price
+    precision: 3
+
+    # What the price should be displayed in default
+    # Possible values: MWh, kWh and Wh
+    # default: kWh
+    price_type: kWh
+
+    # This option allows the usage of a template to add a tariff.
+    # now() always refers start of the hour of that price.
+    # this way we can calculate the correct costs add that to graphs etc.
+    # The price result of the additional_costs template expects this additional cost to be in kWh and not cents as a float
+    # default {{0.0|float}}
+    #additional_costs: "{{0.0|float}}"
+
   - platform: template
     sensors:
       ## Calculates daylight brightness out of 100%

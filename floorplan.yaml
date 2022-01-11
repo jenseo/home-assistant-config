@@ -1,7 +1,5 @@
 title: Floorplan
 decluttering_templates: !include_dir_named floorplan/
-kiosk_mode:
-  kiosk: true
 views:
   - title: Floorplan
     path: floorplan
