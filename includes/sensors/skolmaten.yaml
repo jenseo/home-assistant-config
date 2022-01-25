@@ -1,0 +1,17 @@
+## Skolmaten
+
+- platform: template
+  sensors:
+    skolmat_idag:
+      friendly_name: Skolmat idag
+      value_template: >
+        {% set sensor_names = [ 'mandag', 'tisdag', 'onsdag','torsdag','fredag','lordag','sondag'] %}
+        {% set weekday = sensor_names[now().weekday()] %}
+        
+        {%- if now().weekday() < 5 %}
+        {% set food_sensor = state_attr('sensor.skolmat_'+weekday,'items') %}
+            <span class="food">
+              {{ food_sensor[0] | default }}<br />
+              {{ food_sensor[1] | default }}
+            </span>
+        {%- endif -%}

@@ -1,0 +1,35 @@
+- scan_interval: 14400
+  resource: !secret skolmaten_url
+  headers:
+    Client: !secret skolmaten_client
+    ClientVersion: !secret skolmaten_client_version
+  sensor:
+    - name: "Skolmat måndag"
+      value_template: "OK"
+      json_attributes_path: "$.weeks[0].days[0]"
+      json_attributes:
+        - items
+        
+    - name: "Skolmat tisdag"
+      value_template: "OK"
+      json_attributes_path: "$.weeks[0].days[1]"
+      json_attributes:
+        - items
+        
+    - name: "Skolmat onsdag"
+      value_template: "OK"
+      json_attributes_path: "$.weeks[0].days[2]"
+      json_attributes:
+        - items
+        
+    - name: "Skolmat torsdag"
+      value_template: "OK"
+      json_attributes_path: "$.weeks[0].days[3]"
+      json_attributes:
+        - items
+        
+    - name: "Skolmat fredag"
+      value_template: "OK"
+      json_attributes_path: "$.weeks[0].days[4]"
+      json_attributes:
+        - items

@@ -1,3 +1,14 @@
+### Switchar ###
+- platform: switch
+  name: Hörnlampa gillestuga
+  entity_id: switch.hornlampa_gillestuga
+
+- platform: switch
+  name: Lampa kontor
+  entity_id: switch.belysning_kontor
+
+### Vardagsrum ###
+
 - platform: group
   name: Living room lights
   entities:
@@ -5,18 +16,87 @@
     - light.fonsterlampa_vardagsrum
     - light.fonsterlampa_mot_uterum
     - light.danslampa
+
+### Kök ###
+
 - platform: group
   name: Kitchen lights
   entities:
     - light.diskbank
     - light.kokslampa
+
+### Hall ###
+
 - platform: group
   name: Hallway lights
   entities:
     - light.hall
     - light.hallbyra
     - light.trappa
+
+### Signes rum ###
+
 - platform: group
-  name: Signes rum
+  name: Signe lights
   entities:
     - light.taklampa_signes_rum
+    
+### Majlis rum ###
+
+- platform: group
+  name: Majlis lights
+  entities:
+    - light.fonsterlampa_majlis
+
+### Sovrum ###
+
+- platform: group
+  name: Bedroom lights
+  entities:
+    - light.fonsterlampa_sovrum
+    - light.taklampa_sovrum
+
+
+### Gillestuga ###
+
+- platform: group
+  name: Gillestuga lights
+  entities:
+    - light.spotlights_gillestuga
+    - light.hornlampa_gillestuga
+    - light.sofflampa_gillestuga
+
+### Kontor ###
+
+- platform: group
+  name: Office lights
+  entities:
+    - light.lampa_kontor
+
+### Källare ###
+
+- platform: group
+  name: Basement lights
+  entities:
+    - light.gillestuga_lights
+    - light.office_lights
+
+### Övervåning ###
+
+- platform: group
+  name: Upper floor lights
+  entities:
+    - light.living_room_lights
+    - light.kitchen_lights
+    - light.hallway_lights
+    - light.signe_lights
+    - light.majlis_lights
+    - light.bedroom_lights
+
+## Hela huset 
+
+- platform: group
+  name: House lights
+  entities:
+    - light.basement_lights
+    - light.upper_floor_lights

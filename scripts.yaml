@@ -1,0 +1,123 @@
+god_natt:
+  alias: God natt
+  sequence:
+  - service: light.turn_off
+    target:
+      entity_id:
+      - light.basement_lights
+      - light.kitchen_lights
+      - light.living_room_lights
+      - light.taklampa_signes_rum
+      - light.taklampa_sovrum
+      - light.hall
+      - light.trappa
+  - service: light.turn_on
+    target:
+      entity_id:
+      - light.hallbyra
+      - light.fonsterlampa_majlis
+    data:
+      brightness_pct: 1
+  mode: single
+  icon: mdi:weather-night
+turn_on_lights_when_arriving_home:
+  sequence:
+  - service: light.turn_on
+    target:
+      entity_id:
+      - light.hallway_lights
+      - light.kokslampa
+      - light.living_room_lights
+    data:
+      brightness_pct: 35
+  mode: single
+  icon: mdi:home
+  alias: Tänd lampor vid hemkomst
+slack_alla_lampor:
+  alias: Släck alla lampor
+  sequence:
+  - service: light.turn_off
+    target:
+      entity_id: light.house_lights
+  mode: single
+  icon: mdi:home-export-outline
+slack_overvaning:
+  alias: Släck övervåning
+  sequence:
+  - service: light.turn_off
+    target:
+      entity_id: light.upper_floor_lights
+  mode: single
+slack_kallare:
+  alias: Släck källare
+  sequence:
+  - service: light.turn_off
+    target:
+      entity_id: light.basement_lights
+  mode: single
+change_temperature:
+  fields:
+    temperature:
+      description: Temperature to change to
+      example: 21
+    mode:
+      description: Set mode of AC
+      example: heat
+  sequence:
+  - service: climate.set_temperature
+    target:
+      entity_id:
+      - climate.luftvarmepump_gillestuga
+      - climate.luftvarmepump_overvaning
+    data:
+      hvac_mode: '{{ mode }}'
+      temperature: '{{ temperature }}'
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  - service: climate.set_fan_mode
+    target:
+      entity_id:
+      - climate.luftvarmepump_gillestuga
+      - climate.luftvarmepump_overvaning
+    data:
+      fan_mode: high
+  mode: single
+  icon: mdi:thermometer
+  alias: Sätt temperatur
+netflix_and_chill:
+  alias: Netflix and chill
+  sequence:
+  - service: media_player.turn_on
+    target:
+      entity_id: media_player.tv_gillestuga
+  - service: light.turn_on
+    target:
+      entity_id: light.spotlights_gillestuga
+    data:
+      brightness_pct: 55
+  - service: light.turn_on
+    target:
+      entity_id: light.hornlampa_gillestuga
+  - service: light.turn_off
+    target:
+      entity_id: light.lampa_kontor
+  - service: light.turn_on
+    target:
+      entity_id: light.sofflampa_gillestuga
+    data:
+      brightness_pct: 20
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 14
+      milliseconds: 0
+  - service: media_player.select_source
+    target:
+      entity_id: media_player.tv_gillestuga
+    data:
+      source: HDMI 2
+  mode: single
+  icon: mdi:netflix

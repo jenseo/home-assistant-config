@@ -1,1 +1,110 @@
-[]
+- id: '1642020647440'
+  alias: Turn off all lights when the alarm is armed
+  description: ''
+  trigger:
+  - platform: device
+    device_id: 991bdd0224936d6bb9b0cde219570c6e
+    domain: alarm_control_panel
+    entity_id: alarm_control_panel.sector_alarmpanel_02751485
+    type: armed_away
+  condition: []
+  action:
+  - service: script.slack_alla_lampor
+  mode: single
+- id: '1642021220097'
+  alias: Turn on lights when arriving home
+  description: ''
+  trigger:
+  - platform: device
+    device_id: 991bdd0224936d6bb9b0cde219570c6e
+    domain: alarm_control_panel
+    entity_id: alarm_control_panel.sector_alarmpanel_02751485
+    type: disarmed
+  - platform: state
+    entity_id: group.family
+    to: home
+  condition: []
+  action:
+  - service: script.turn_on_lights_when_arriving_home
+  mode: single
+- id: '1642498985323'
+  alias: Ändra temperatur baserat på högt elpris
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.electricity_price_high
+  - platform: state
+    entity_id: sensor.electricity_price_skogsvagen_15
+    attribute: price_level
+    to: EXPENSIVE
+  - platform: state
+    entity_id: sensor.electricity_price_skogsvagen_15
+    to: VERY_EXPENSIVE
+  condition:
+  - condition: state
+    entity_id: binary_sensor.huset_sover
+    state: 'off'
+  action:
+  - service: script.change_temperature
+    target:
+      entity_id:
+      - climate.luftvarmepump_overvaning
+      - climate.luftvarmepump_gillestuga
+    data:
+      temperature: "{% if states(\"sensor.electricity_price_high\") == \"True\" %}\n\
+        \  {% if state_attr('sensor.electricity_price_skogsvagen_15', 'price_level')\
+        \ == \"EXPENSIVE\" %}\n    20\n  {% else %}\n    19\n  {% endif %}\n{% else\
+        \ %}\n  21\n{% endif %}\n"
+      mode: heat
+  mode: single
+- id: '1642511540733'
+  alias: Ändra temperatur baserat på lågt elpris
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.electricity_price_low
+  - platform: state
+    entity_id: sensor.electricity_price_skogsvagen_15
+    to: CHEAP
+    attribute: price_level
+  - platform: state
+    entity_id: sensor.electricity_price_skogsvagen_15
+    attribute: price_level
+    to: VERY_CHEAP
+  - platform: time
+    at: 05:00
+  condition:
+  - condition: state
+    entity_id: binary_sensor.huset_sover
+    state: 'off'
+  action:
+  - service: script.change_temperature
+    target:
+      entity_id:
+      - climate.luftvarmepump_overvaning
+      - climate.luftvarmepump_gillestuga
+    data:
+      temperature: "{% if states(\"sensor.electricity_price_low\") == \"True\" %}\n\
+        \  {% if state_attr('sensor.electricity_price_skogsvagen_15', 'price_level')\
+        \ == \"CHEAP\" %}\n    22\n  {% else %}\n    23\n  {% endif %}\n{% else %}\n\
+        \  21\n{% endif %}\n"
+      mode: heat
+  mode: single
+- id: '1643038808068'
+  alias: Nattsänkning av temperatur
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.huset_sover
+    to: 'on'
+  condition: []
+  action:
+  - service: script.change_temperature
+    target:
+      entity_id:
+      - climate.luftvarmepump_overvaning
+      - climate.luftvarmepump_gillestuga
+    data:
+      temperature: 19
+      mode: heat
+  mode: single

@@ -1,0 +1,21 @@
+- platform: template
+  sensors:
+    electricity_price_high:
+      friendly_name: Högt elpris
+      value_template: >-
+        {% set array=state_attr('sensor.nordpool_kwh_se3_sek_3_10_025','today') %}
+        {% set current_price=states('sensor.nordpool_kwh_se3_sek_3_10_025') %}
+        {% set price_level=state_attr('sensor.electricity_price_skogsvagen_15','price_level') %}
+        {% set eight_highest_prices=(array | sort)[16] %}
+        {% if ((current_price | float) >= (eight_highest_prices | float) and (price_level == 'EXPENSIVE' or price_level == 'VERY_EXPENSIVE')) %}True{% else %}False
+        {% endif %}
+        
+    electricity_price_low:
+      friendly_name: Lågt elpris
+      value_template: >-
+        {% set array=state_attr('sensor.nordpool_kwh_se3_sek_3_10_025','today') %}
+        {% set current_price=states('sensor.nordpool_kwh_se3_sek_3_10_025') %}
+        {% set price_level=state_attr('sensor.electricity_price_skogsvagen_15','price_level') %}
+        {% set eight_lowest_prices=(array | sort)[7] %}
+        {% if ((current_price | float) <= (eight_lowest_prices | float) and (price_level == 'CHEAP' or price_level == 'VERY_CHEAP')) %}True{% else %}False
+        {% endif %}

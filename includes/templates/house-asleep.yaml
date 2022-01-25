@@ -1,0 +1,10 @@
+- binary_sensor:
+    - name: Huset sover
+      icon: mdi:sleep
+      state: >
+        {% set time = states('sensor.time') %}
+        {{ (('22:00' <= time <= '23:59') or ('00:00' <= time < '05:00'))
+            and is_state('light.basement_lights', 'off')
+            and is_state('light.kitchen_lights', 'off')
+            and is_state('light.living_room_lights', 'off')
+            and is_state('light.bedroom_lights', 'off') }}

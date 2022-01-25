@@ -5,12 +5,34 @@ homeassistant:
   unit_system: metric
   time_zone: Europe/Stockholm
   customize: !include customize.yaml
-  
+  currency: SEK
 default_config:
 
 frontend:
   themes: !include_dir_merge_named themes
 
+automation: !include automations.yaml
+script: !include scripts.yaml
+group: !include groups.yaml
+scene: !include scenes.yaml
+light: !include light.yaml
+
+## Värmepumpar
+climate: !include_dir_merge_list includes/climate/
+
+## Media players
+media_player: !include_dir_merge_list includes/media_player/
+
+## REST 
+rest: !include_dir_merge_list includes/rest/
+
+## Templates
+template: !include_dir_merge_list includes/templates/
+
+## Sensors
+sensor: !include_dir_merge_list includes/sensors/
+
+## Dashboards
 lovelace:
   mode: storage
   dashboards:
@@ -23,13 +45,15 @@ lovelace:
 
 http:  
   server_port: !secret server_port
-
-automation: !include automations.yaml
+  
+smartir:
+  check_updates: false
 
 browser_mod:
   devices:
     375553f6-33529b78:
       name: lenovotablet
+      force_stay_awake: true
   disable:
     - all
 
@@ -46,16 +70,6 @@ google:
 # Text to speech
 tts:
   - platform: google_translate
-
-group: !include groups.yaml
-scene: !include scenes.yaml
-light: !include light.yaml
-
-#Log bans
-logger:
-  default: critical
-  logs:
-    homeassistant.components.http.ban: warning
  
 recorder:
   exclude:
@@ -65,79 +79,11 @@ recorder:
       - group
       - binary_sensor
       - automation
-      
-sensor:
-  - platform: time_date
-    display_options:
-      - "time"
-      - "date"
-  - platform: template
-    sensors:
-      current_date_time:
-        value_template: >
-          {% set hours = now().strftime('%H') %}
-          {% set minutes = now().strftime('%M') %}
-          <span class="time">
-            {{ hours }}<span class="time-colon">:</span>{{ minutes }}
-          </span>
-        friendly_name: "Current Date/Time"
 
-  - platform: nordpool
-
-    # Should the prices include vat? Default True
-    VAT: true
-
-    # What currency the api fetches the prices in
-    # this is only need if you want a sensor in a non local currecy
-    #currency: "EUR"
-
-    # Helper so you can set your "low" price
-    # low_price = hour_price < average * low_price_cutoff
-    #low_price_cutoff: 0.95
-
-    # What power regions your are interested in.
-    # Possible values: "DK1", "DK2", "FI", "LT", "LV", "Oslo", "Kr.sand", "Bergen", "Molde", "Tr.heim", "Tromsø", "SE1", "SE2", "SE3","SE4", "SYS", "EE"
-    region: "SE3"
-
-    # How many decimals to use in the display of the price
-    precision: 3
-
-    # What the price should be displayed in default
-    # Possible values: MWh, kWh and Wh
-    # default: kWh
-    price_type: kWh
-
-    # This option allows the usage of a template to add a tariff.
-    # now() always refers start of the hour of that price.
-    # this way we can calculate the correct costs add that to graphs etc.
-    # The price result of the additional_costs template expects this additional cost to be in kWh and not cents as a float
-    # default {{0.0|float}}
-    #additional_costs: "{{0.0|float}}"
-
-  - platform: template
-    sensors:
-      ## Calculates daylight brightness out of 100%
-      sunlight_pct:
-        value_template: >-
-          {%- set elevation = state_attr('sun.sun','elevation') | float %}
-          {%- set cloud_coverage = states('sensor.openweathermap_cloud_coverage') | float %}
-          {%- set cloud_factor = (1 - (0.75 * ( cloud_coverage / 100) ** 3 )) %}
-          {%- set min_elevation = -6 %}
-          {%- set max_elevation = 90 %}
-          {%- set adjusted_elevation = elevation - min_elevation %}
-          {%- set adjusted_elevation = [adjusted_elevation,0] | max %}
-          {%- set adjusted_elevation = [adjusted_elevation,max_elevation - min_elevation] | min %}
-          {%- set adjusted_elevation = adjusted_elevation / (max_elevation - min_elevation) %}
-          {%- set adjusted_elevation = adjusted_elevation %}
-          {%- set adjusted_elevation = adjusted_elevation * 100 %}
-          {%- set brightness = adjusted_elevation * cloud_factor %}
-          {{ brightness | round }}
-        unit_of_measurement: '%'
-        device_class: 'illuminance'
-      
-      ## Daylight brightness converted to opacity for CSS
-      sunlight_opacity:
-        value_template: >-
-          {%- set sunpct = states('sensor.sunlight_pct') | float %}
-          {%- set opacity = sunpct / 100 | float %}
-          {{ opacity }}
+logbook:
+  exclude:
+    entities:
+      - sensor.time
+      - sensor.date
+      - sensor.current_date
+      - sensor.current_time

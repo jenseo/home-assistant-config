@@ -1,0 +1,26 @@
+- platform: time_date
+  display_options:
+    - "time"
+    - "date"
+- platform: template
+  sensors:
+    current_time:
+      value_template: >
+        {% set hours = now().strftime('%H') %}
+        {% set minutes = now().strftime('%M') %}
+        <span class="time">
+          {{ hours }}<span class="time-colon">:</span>{{ minutes }}
+        </span>
+      friendly_name: "Current Time"
+      
+    current_date:
+      value_template: |
+        <span>
+        {%- if strptime(states('sensor.date'), '%Y-%m-%d').day != null %}
+        {%- set days = ['Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag', 'Söndag'] %}
+        {%- set months = ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni', 
+        'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'] %}
+          {{- days[now().weekday()] }} {{ strptime(states('sensor.date'), '%Y-%m-%d').day }} {{ months[now().month-1] }}
+        {%- endif -%}
+        </span>
+      friendly_name: "Current Date"

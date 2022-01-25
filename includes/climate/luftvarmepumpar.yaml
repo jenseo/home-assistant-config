@@ -1,0 +1,12 @@
+## Värmepumpar
+- platform: smartir
+  name: Luftvärmepump övervåning
+  unique_id: ac_upper_floor
+  device_code: 1260
+  controller_data: remote.broadlink_upper_floor_remote
+  
+- platform: smartir
+  name: Luftvärmepump Gillestuga
+  unique_id: ac_basement
+  device_code: 1380
+  controller_data: remote.broadlink_gillestuga_remote
